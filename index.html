@@ -1,0 +1,2372 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EcoBuilt - Green Website Analyzer</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        body {
+            background: #f5faf7;
+            color: #173b3b;
+        }
+
+        /* ================= HEADER ================= */
+
+        header {
+            min-height: 90px;
+            background: white;
+            border-bottom: 1px solid #dceae4;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 10px 5%;
+        }
+
+        .logo-section {
+            display: flex;
+            align-items: center;
+        }
+
+        .logo-image {
+            width: 220px;
+            height: 80px;
+            object-fit: contain;
+            display: block;
+        }
+
+        .header-right {
+            display: flex;
+            align-items: center;
+            gap: 25px;
+        }
+
+        .live-box {
+            border: 1px solid #d5e5df;
+            border-radius: 10px;
+            padding: 10px 20px;
+            min-width: 240px;
+        }
+
+        .live-title {
+            color: #08784d;
+            font-weight: bold;
+            margin-bottom: 3px;
+        }
+
+        .live-dot {
+            display: inline-block;
+            width: 10px;
+            height: 10px;
+            background: #2ba84a;
+            border-radius: 50%;
+            margin-right: 7px;
+        }
+
+        .live-box small {
+            color: #607575;
+        }
+
+        .history-btn {
+            background: white;
+            border: 1px solid #d3e1dc;
+            padding: 12px 20px;
+            border-radius: 9px;
+            cursor: pointer;
+            font-size: 14px;
+            color: #173b3b;
+        }
+
+        .history-btn:hover {
+            background: #eef8f3;
+        }
+
+        .profile {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            background: #e8f5ed;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #16745a;
+            font-weight: bold;
+        }
+
+        /* ================= MAIN ================= */
+
+        main {
+            width: 94%;
+            max-width: 1450px;
+            margin: 25px auto;
+        }
+
+        .card {
+            background: white;
+            border: 1px solid #dcebe5;
+            border-radius: 13px;
+            padding: 25px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 8px rgba(20, 80, 60, 0.04);
+        }
+
+        /* ================= URL SECTION ================= */
+
+        .url-section {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .url-area {
+            flex: 1;
+        }
+
+        .url-area label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .url-row {
+            display: flex;
+            gap: 12px;
+        }
+
+        .url-input {
+            flex: 1;
+            height: 48px;
+            border: 1px solid #cbdcd7;
+            border-radius: 8px;
+            padding: 0 15px;
+            font-size: 15px;
+            outline: none;
+        }
+
+        .url-input:focus {
+            border-color: #15976f;
+        }
+
+        .rescan-btn {
+            background: #076a5d;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            padding: 0 25px;
+            font-size: 15px;
+            cursor: pointer;
+        }
+
+        .rescan-btn:hover {
+            background: #075449;
+        }
+
+        .rescan-btn:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+        }
+
+        .hosting {
+            width: 230px;
+            border: 1px solid #b9dfc2;
+            background: #f2fff4;
+            border-radius: 9px;
+            padding: 18px;
+        }
+
+        .hosting h3 {
+            color: #117442;
+            margin-bottom: 5px;
+        }
+
+        .hosting p {
+            font-size: 13px;
+            color: #49745d;
+        }
+
+        /* ================= SCORE ================= */
+
+        .score-card {
+            display: flex;
+            align-items: center;
+            gap: 60px;
+        }
+
+        .score-circle {
+            width: 190px;
+            height: 190px;
+            border-radius: 50%;
+            background: conic-gradient(
+                #239b55 0deg 0deg,
+                #e3eee9 0deg 360deg
+            );
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .score-inner {
+            width: 150px;
+            height: 150px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .score-number {
+            font-size: 48px;
+            font-weight: bold;
+            color: #173b3b;
+        }
+
+        .score-total {
+            color: #667777;
+        }
+
+        .score-label {
+            margin-top: 8px;
+            background: #45ad68;
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 13px;
+        }
+
+        .score-info {
+            border-left: 1px solid #dce7e2;
+            padding-left: 50px;
+        }
+
+        .score-info h2 {
+            font-size: 25px;
+            max-width: 500px;
+            line-height: 1.4;
+        }
+
+        .score-info h2 span {
+            color: #15945c;
+        }
+
+        .score-info p {
+            margin-top: 18px;
+            max-width: 550px;
+            color: #667777;
+            line-height: 1.6;
+        }
+
+        .issues {
+            display: inline-block;
+            margin-top: 18px;
+            padding: 10px 18px;
+            border: 1px solid #f1c783;
+            border-radius: 20px;
+            color: #a96b11;
+            background: #fffaf0;
+        }
+
+        /* ================= METRICS ================= */
+
+        .metrics {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 15px;
+        }
+
+        .metric {
+            background: white;
+            border: 1px solid #dcebe5;
+            border-radius: 12px;
+            padding: 20px;
+        }
+
+        .metric-top {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .metric-icon {
+            width: 45px;
+            height: 45px;
+            border-radius: 50%;
+            background: #edf9f1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #168451;
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        .metric h4 {
+            font-size: 14px;
+            font-weight: normal;
+        }
+
+        .metric-value {
+            font-size: 25px;
+            font-weight: bold;
+            margin-top: 15px;
+        }
+
+        .metric-change {
+            margin-top: 15px;
+            font-size: 13px;
+        }
+
+        .down {
+            color: #159250;
+        }
+
+        .up {
+            color: #e34c37;
+        }
+
+        /* ================= CHARTS ================= */
+
+        .charts {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .chart-card {
+            background: white;
+            border: 1px solid #dcebe5;
+            border-radius: 12px;
+            padding: 25px;
+        }
+
+        .chart-card h3 {
+            margin-bottom: 25px;
+        }
+
+        /* ================= DONUT ================= */
+
+        .weight-content {
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+        }
+
+        .donut {
+            width: 180px;
+            height: 180px;
+            border-radius: 50%;
+            background: conic-gradient(#c9ced0 0 100%);
+            position: relative;
+        }
+
+        .donut::after {
+            content: "";
+            position: absolute;
+            width: 105px;
+            height: 105px;
+            background: white;
+            border-radius: 50%;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .legend div {
+            margin: 12px 0;
+            font-size: 14px;
+        }
+
+        .dot {
+            display: inline-block;
+            width: 11px;
+            height: 11px;
+            border-radius: 3px;
+            margin-right: 8px;
+        }
+
+        .green {
+            background: #3bad78;
+        }
+
+        .blue {
+            background: #397fc9;
+        }
+
+        .yellow {
+            background: #e7ae37;
+        }
+
+        .gray {
+            background: #c9ced0;
+        }
+
+        /* ================= BEFORE AFTER ================= */
+
+        .before-after {
+            display: flex;
+            align-items: end;
+            justify-content: center;
+            gap: 70px;
+            height: 220px;
+        }
+
+        .bar-container {
+            height: 180px;
+            display: flex;
+            flex-direction: column;
+            justify-content: end;
+            align-items: center;
+        }
+
+        .bar {
+            width: 80px;
+            border-radius: 7px 7px 0 0;
+        }
+
+        .current {
+            height: 10px;
+            background: #cdd1d3;
+        }
+
+        .projected {
+            height: 10px;
+            background: #3cb878;
+        }
+
+        .bar-value {
+            margin-bottom: 8px;
+            font-weight: bold;
+        }
+
+        .bar-label {
+            margin-top: 10px;
+            color: #5d6e6e;
+        }
+
+        .saving-box {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .saving {
+            border: 1px solid #d7e8df;
+            background: #f5fcf7;
+            padding: 18px;
+            border-radius: 9px;
+        }
+
+        .saving strong {
+            display: block;
+            font-size: 22px;
+            color: #149251;
+            margin-top: 5px;
+        }
+
+        /* ================= RECOMMENDATIONS ================= */
+
+        .recommendations {
+            margin-top: 20px;
+        }
+
+        .recommendation {
+            display: grid;
+            grid-template-columns: 150px 1fr 200px 100px;
+            align-items: center;
+            gap: 20px;
+            padding: 16px;
+            border-radius: 8px;
+            margin-top: 10px;
+        }
+
+        .high {
+            background: #fff4f3;
+            border: 1px solid #f3c4c0;
+        }
+
+        .medium {
+            background: #fffaf0;
+            border: 1px solid #f0d39b;
+        }
+
+        .low {
+            background: #f3fbf3;
+            border: 1px solid #c5dfc5;
+        }
+
+        .impact-high {
+            color: #db352b;
+            font-weight: bold;
+        }
+
+        .impact-medium {
+            color: #d58a16;
+            font-weight: bold;
+        }
+
+        .impact-low {
+            color: #36934a;
+            font-weight: bold;
+        }
+
+        .recommendation p {
+            font-size: 13px;
+            color: #687777;
+            margin-top: 5px;
+        }
+
+        .impact-badge {
+            padding: 7px 10px;
+            border-radius: 20px;
+            font-size: 12px;
+            text-align: center;
+            display: inline-block;
+            margin: 2px;
+        }
+
+        .red-badge {
+            background: #ffe3e0;
+            color: #c9382d;
+        }
+
+        .amber-badge {
+            background: #fff0d4;
+            color: #c17b12;
+        }
+
+        .green-badge {
+            background: #e0f5e3;
+            color: #318344;
+        }
+
+        .fix-btn {
+            padding: 9px 15px;
+            border-radius: 7px;
+            background: white;
+            cursor: pointer;
+        }
+
+        .high .fix-btn {
+            border: 1px solid #ed6258;
+            color: #d53e35;
+        }
+
+        .medium .fix-btn {
+            border: 1px solid #e3a12e;
+            color: #c77b0b;
+        }
+
+        .low .fix-btn {
+            border: 1px solid #61a66a;
+            color: #378743;
+        }
+
+        .view-all {
+            text-align: center;
+            margin-top: 25px;
+            color: #087457;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        /* ================= ACTIONS ================= */
+
+        .actions {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+        }
+
+        .action {
+            border: 1px solid #d6e4df;
+            background: white;
+            border-radius: 9px;
+            padding: 18px;
+            cursor: pointer;
+            text-align: left;
+        }
+
+        .action:hover {
+            background: #f2faf5;
+        }
+
+        .action strong {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .action small {
+            color: #6a7777;
+        }
+
+        /* ================= FOOTER ================= */
+
+        footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 25px 5%;
+            color: #657777;
+            font-size: 13px;
+        }
+
+        footer .slogan {
+            color: #087457;
+            font-weight: bold;
+        }
+
+        /* ================= RESPONSIVE ================= */
+
+        @media (max-width: 1100px) {
+
+            .header-right {
+                gap: 12px;
+            }
+
+            .live-box {
+                min-width: 200px;
+            }
+
+            .charts {
+                grid-template-columns: 1fr;
+            }
+
+            .recommendation {
+                grid-template-columns: 130px 1fr 160px 90px;
+            }
+        }
+
+        @media (max-width: 1000px) {
+
+            .metrics {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .recommendation {
+                grid-template-columns: 1fr;
+            }
+
+            .score-card {
+                flex-direction: column;
+            }
+
+            .score-info {
+                border-left: none;
+                padding-left: 0;
+                text-align: center;
+            }
+        }
+
+        @media (max-width: 700px) {
+
+            header {
+                height: auto;
+                padding: 15px;
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .logo-image {
+                width: 200px;
+                height: 70px;
+            }
+
+            .header-right {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .url-section {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .metrics,
+            .actions {
+                grid-template-columns: 1fr;
+            }
+
+            .url-row {
+                flex-direction: column;
+            }
+
+            .rescan-btn {
+                height: 45px;
+            }
+
+            .weight-content {
+                flex-direction: column;
+                gap: 25px;
+            }
+
+            .before-after {
+                gap: 30px;
+            }
+
+            footer {
+                flex-direction: column;
+                gap: 15px;
+                text-align: center;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- ================= HEADER ================= -->
+
+<header>
+
+    <div class="logo-section">
+
+        <!-- FIXED FLASK STATIC PATH -->
+        <img
+            src="{{ url_for('static', filename='logo.jpeg') }}"
+            alt="EcoBuilt Logo"
+            class="logo-image"
+        >
+
+    </div>
+
+    <div class="header-right">
+
+        <div class="live-box">
+
+            <div class="live-title">
+                <span class="live-dot"></span>
+                Live
+            </div>
+
+            <small>
+                Scanning the web for a greener future
+            </small>
+
+        </div>
+
+        <button
+            class="history-btn"
+            onclick="showHistory()"
+        >
+            History
+        </button>
+
+        <div class="profile">
+            R
+        </div>
+
+    </div>
+
+</header>
+
+
+<main>
+
+<!-- ================= URL ================= -->
+
+<section class="card url-section">
+
+    <div class="url-area">
+
+        <label>
+            Enter Website URL
+        </label>
+
+        <div class="url-row">
+
+            <input
+                id="urlInput"
+                class="url-input"
+                type="text"
+                placeholder="https://www.example.com"
+            >
+
+            <button
+                class="rescan-btn"
+                onclick="rescanWebsite()"
+            >
+                Scan Website
+            </button>
+
+        </div>
+
+    </div>
+
+    <div
+        class="hosting"
+        id="hostingStatus"
+    >
+
+        <h3>
+            Green Hosting
+        </h3>
+
+        <p>
+            Enter a website and start an analysis
+        </p>
+
+    </div>
+
+</section>
+
+
+<!-- ================= SCORE ================= -->
+
+<section class="card score-card">
+
+    <div>
+
+        <div class="score-circle">
+
+            <div class="score-inner">
+
+                <div
+                    class="score-number"
+                    id="scoreNumber"
+                >
+                    --
+                </div>
+
+                <div class="score-total">
+                    /100
+                </div>
+
+                <div
+                    class="score-label"
+                    id="scoreLabel"
+                >
+                    Waiting
+                </div>
+
+            </div>
+
+        </div>
+
+        <div
+            style="
+                text-align:center;
+                margin-top:10px;
+            "
+        >
+            Eco Score
+        </div>
+
+    </div>
+
+    <div class="score-info">
+
+        <h2 id="scoreHeadline">
+            Enter a website to begin the analysis.
+        </h2>
+
+        <p id="scoreDescription">
+            EcoBuilt will analyze performance,
+            page weight, carbon impact,
+            and hosting.
+        </p>
+
+        <div
+            class="issues"
+            id="issuesCount"
+        >
+            0 Issues Found
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= METRICS ================= -->
+
+<section class="metrics">
+
+    <!-- CO2 -->
+
+    <div class="metric">
+
+        <div class="metric-top">
+
+            <div class="metric-icon">
+                CO2
+            </div>
+
+            <h4>
+                CO2 per Visit
+            </h4>
+
+        </div>
+
+        <div
+            class="metric-value"
+            id="co2Value"
+        >
+            --
+        </div>
+
+        <div class="metric-change down">
+            Waiting for scan
+        </div>
+
+    </div>
+
+
+    <!-- PAGE WEIGHT -->
+
+    <div class="metric">
+
+        <div class="metric-top">
+
+            <div class="metric-icon">
+                WT
+            </div>
+
+            <h4>
+                Page Weight
+            </h4>
+
+        </div>
+
+        <div
+            class="metric-value"
+            id="pageSizeValue"
+        >
+            --
+        </div>
+
+        <div class="metric-change down">
+            Waiting for scan
+        </div>
+
+    </div>
+
+
+    <!-- COST -->
+
+    <div class="metric">
+
+        <div class="metric-top">
+
+            <div class="metric-icon">
+                INR
+            </div>
+
+            <h4>
+                Monthly Cost Waste
+            </h4>
+
+        </div>
+
+        <div
+            class="metric-value"
+            id="costValue"
+        >
+            --
+        </div>
+
+        <div class="metric-change down">
+            Waiting for scan
+        </div>
+
+    </div>
+
+
+    <!-- LOAD TIME -->
+
+    <div class="metric">
+
+        <div class="metric-top">
+
+            <div class="metric-icon">
+                SEC
+            </div>
+
+            <h4>
+                Load Time
+            </h4>
+
+        </div>
+
+        <div
+            class="metric-value"
+            id="loadTimeValue"
+        >
+            --
+        </div>
+
+        <div class="metric-change down">
+            Waiting for scan
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= CHARTS ================= -->
+
+<section class="charts">
+
+    <!-- PAGE WEIGHT -->
+
+    <div class="chart-card">
+
+        <h3>
+            Page Weight Breakdown
+        </h3>
+
+        <div class="weight-content">
+
+            <div
+                class="donut"
+                id="weightDonut"
+            ></div>
+
+            <div
+                class="legend"
+                id="weightLegend"
+            >
+
+                <div>
+
+                    <span class="dot gray"></span>
+
+                    <b>
+                        Resources
+                    </b>
+
+                    <br>
+
+                    &nbsp;&nbsp;&nbsp;&nbsp;
+
+                    Waiting for scan
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <!-- BEFORE AFTER -->
+
+    <div class="chart-card">
+
+        <h3>
+            Before vs After Optimization
+        </h3>
+
+        <div
+            style="
+                display:flex;
+                justify-content:space-between;
+            "
+        >
+
+            <div
+                class="before-after"
+                id="beforeAfterChart"
+            >
+
+                <div class="bar-container">
+
+                    <div
+                        class="bar-value"
+                        id="currentWeightValue"
+                    >
+                        --
+                    </div>
+
+                    <div class="bar current"></div>
+
+                    <div class="bar-label">
+                        Current
+                    </div>
+
+                </div>
+
+
+                <div class="bar-container">
+
+                    <div
+                        class="bar-value"
+                        id="projectedWeightValue"
+                    >
+                        --
+                    </div>
+
+                    <div class="bar projected"></div>
+
+                    <div class="bar-label">
+                        Projected
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <div class="saving-box">
+
+                <div class="saving">
+
+                    Weight Reduction
+
+                    <strong id="reductionValue">
+                        --
+                    </strong>
+
+                </div>
+
+
+                <div class="saving">
+
+                    Estimated Money Saved
+
+                    <strong id="moneySavedValue">
+                        --
+                    </strong>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= RECOMMENDATIONS ================= -->
+
+<section class="card recommendations">
+
+    <h2>
+        Rule-Based Recommendations
+    </h2>
+
+    <div id="recommendationsList">
+
+        <div class="recommendation low">
+
+            <div class="impact-low">
+                Waiting
+            </div>
+
+            <div>
+
+                <strong>
+                    Start a website scan
+                </strong>
+
+                <p>
+                    Recommendations will appear here
+                    after EcoBuilt analyzes your website.
+                </p>
+
+            </div>
+
+            <div>
+
+                <span class="impact-badge green-badge">
+                    Awaiting data
+                </span>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</section>
+
+
+<!-- ================= ACTIONS ================= -->
+
+<section class="card actions">
+
+    <button
+        class="action"
+        onclick="exportReport()"
+    >
+
+        <strong>
+            Export ESG Report
+        </strong>
+
+        <small>
+            Download detailed ESG report
+        </small>
+
+    </button>
+
+
+    <button
+        class="action"
+        onclick="shareResults()"
+    >
+
+        <strong>
+            Share Results
+        </strong>
+
+        <small>
+            Share your results with others
+        </small>
+
+    </button>
+
+
+    <button
+        class="action"
+        onclick="bookmarkWebsite()"
+    >
+
+        <strong>
+            Bookmark Website
+        </strong>
+
+        <small>
+            Save for future scans
+        </small>
+
+    </button>
+
+</section>
+
+</main>
+
+
+<!-- ================= FOOTER ================= -->
+
+<footer>
+
+    <div>
+        © 2026 EcoBuilt. All rights reserved.
+    </div>
+
+    <div class="slogan">
+        Building a Greener Digital India
+    </div>
+
+    <div>
+        EcoBuilt
+    </div>
+
+</footer>
+
+
+<script>
+
+/*
+==========================================================
+ECOBUILT FRONTEND
+FRONTEND <-> FLASK BACKEND
+==========================================================
+*/
+
+const API_URL = "/api/analyze";
+
+
+/* ================= FORMAT NUMBER ================= */
+
+function formatNumber(value, decimals = 2) {
+
+    const number = Number(value);
+
+    return Number.isFinite(number)
+        ? number.toFixed(decimals)
+        : "--";
+}
+
+
+/* ================= SCORE LABEL ================= */
+
+function getScoreLabel(score) {
+
+    if (score >= 90) {
+        return "Excellent";
+    }
+
+    if (score >= 75) {
+        return "Good";
+    }
+
+    if (score >= 50) {
+        return "Needs Improvement";
+    }
+
+    return "Poor";
+}
+
+
+/* ================= SCORE CIRCLE ================= */
+
+function updateScoreCircle(score) {
+
+    const circle =
+        document.querySelector(".score-circle");
+
+    const safeScore =
+        Math.max(
+            0,
+            Math.min(
+                100,
+                Number(score) || 0
+            )
+        );
+
+    const degrees =
+        safeScore * 3.6;
+
+    circle.style.background =
+        `conic-gradient(
+            #239b55 0deg ${degrees}deg,
+            #e3eee9 ${degrees}deg 360deg
+        )`;
+}
+
+
+/* ================= UPDATE DASHBOARD ================= */
+
+function updateDashboard(data) {
+
+    console.log(
+        "EcoBuilt API Response:",
+        data
+    );
+
+
+    /* ================= SCORE ================= */
+
+    const score =
+        Number(
+            data.score?.final_score ?? 0
+        );
+
+    const label =
+        getScoreLabel(score);
+
+
+    document.getElementById(
+        "scoreNumber"
+    ).textContent =
+        Math.round(score);
+
+
+    document.getElementById(
+        "scoreLabel"
+    ).textContent =
+        label;
+
+
+    updateScoreCircle(score);
+
+
+    /* ================= CARBON ================= */
+
+    const co2 =
+        Number(
+            data.carbon?.co2_grams ?? 0
+        );
+
+
+    document.getElementById(
+        "co2Value"
+    ).textContent =
+        `${formatNumber(co2, 4)} g`;
+
+
+    /* ================= PAGE SIZE ================= */
+
+    const pageSizeBytes =
+        Number(
+            data.pagespeed?.page_size_bytes ?? 0
+        );
+
+    const pageSizeMB =
+        Number(
+            data.pagespeed?.page_size_mb ?? 0
+        );
+
+
+    document.getElementById(
+        "pageSizeValue"
+    ).textContent =
+        `${formatNumber(pageSizeMB, 2)} MB`;
+
+
+    /* ================= MONTHLY COST ================= */
+
+    const monthlyCost =
+        Number(
+            data.cost?.monthly_cost ?? 0
+        );
+
+
+    document.getElementById(
+        "costValue"
+    ).textContent =
+        `₹${formatNumber(monthlyCost, 2)}`;
+
+
+    /* ================= LOAD TIME ================= */
+
+    const loadTime =
+        Number(
+            data.pagespeed?.load_time_seconds ?? 0
+        );
+
+
+    document.getElementById(
+        "loadTimeValue"
+    ).textContent =
+        `${formatNumber(loadTime, 2)} sec`;
+
+
+    /* ================= SCORE MESSAGE ================= */
+
+    document.getElementById(
+        "scoreHeadline"
+    ).innerHTML =
+        `Your website has an Eco Score of
+        <span>${Math.round(score)}/100</span>`;
+
+
+    document.getElementById(
+        "scoreDescription"
+    ).textContent =
+        `EcoBuilt analyzed ${
+            data.website || "your website"
+        } using performance, page weight,
+        carbon, and hosting indicators.`;
+
+
+    /* ================= ISSUES ================= */
+
+    const recommendations =
+        Array.isArray(
+            data.recommendations
+        )
+            ? data.recommendations
+            : [];
+
+
+    document.getElementById(
+        "issuesCount"
+    ).textContent =
+        `${recommendations.length}
+        Issue${recommendations.length === 1 ? "" : "s"}
+        Found`;
+
+
+    /* ================= HOSTING ================= */
+
+    updateHosting(
+        data.green_hosting || {}
+    );
+
+
+    /* ================= RECOMMENDATIONS ================= */
+
+    updateRecommendations(
+        recommendations
+    );
+
+
+    /* ================= PAGE WEIGHT ================= */
+
+    updateWeightBreakdown(
+        data.html || {},
+        pageSizeBytes
+    );
+
+
+    /* ================= BEFORE / AFTER ================= */
+
+    updateBeforeAfter(
+        pageSizeMB,
+        monthlyCost
+    );
+
+
+    /* ================= METRIC SUBTEXT ================= */
+
+    const metricChanges =
+        document.querySelectorAll(
+            ".metric-change"
+        );
+
+
+    if (metricChanges.length >= 4) {
+
+        metricChanges[0].className =
+            "metric-change down";
+
+        metricChanges[0].textContent =
+            `Performance:
+            ${data.pagespeed?.performance_score ?? "--"}/100`;
+
+
+        metricChanges[1].className =
+            "metric-change down";
+
+
+        const requests =
+            Number(
+                data.pagespeed?.requests ?? 0
+            );
+
+
+        metricChanges[1].textContent =
+            `${requests}
+            request${requests === 1 ? "" : "s"}`;
+
+
+        metricChanges[2].className =
+            "metric-change down";
+
+
+        metricChanges[2].textContent =
+            `Monthly transfer:
+            ${formatNumber(
+                data.cost?.monthly_transfer_gb ?? 0,
+                4
+            )} GB`;
+
+
+        metricChanges[3].className =
+            "metric-change down";
+
+
+        metricChanges[3].textContent =
+            `PageSpeed:
+            ${data.pagespeed?.performance_score ?? "--"}/100`;
+    }
+
+
+    console.log(
+        "EcoBuilt dashboard updated successfully."
+    );
+}
+
+
+/* ================= GREEN HOSTING ================= */
+
+function updateHosting(hostingData) {
+
+    const hosting =
+        document.getElementById(
+            "hostingStatus"
+        );
+
+
+    const isGreen =
+        Boolean(
+            hostingData.is_green
+        );
+
+
+    const provider =
+        hostingData.hosted_by;
+
+
+    if (isGreen) {
+
+        hosting.innerHTML = `
+
+            <h3>
+                Green Hosting
+            </h3>
+
+            <p>
+                Green energy detected
+                ${
+                    provider
+                        ? `(${escapeHtml(provider)})`
+                        : ""
+                }
+            </p>
+
+        `;
+
+    } else {
+
+        hosting.innerHTML = `
+
+            <h3>
+                Green Hosting
+            </h3>
+
+            <p>
+                Green hosting was not detected
+            </p>
+
+        `;
+    }
+}
+
+
+/* ================= RECOMMENDATIONS ================= */
+
+function updateRecommendations(
+    recommendations
+) {
+
+    const container =
+        document.getElementById(
+            "recommendationsList"
+        );
+
+
+    if (!recommendations.length) {
+
+        container.innerHTML = `
+
+            <div class="recommendation low">
+
+                <div class="impact-low">
+                    No Issues
+                </div>
+
+
+                <div>
+
+                    <strong>
+                        Great job!
+                    </strong>
+
+                    <p>
+                        No rule-based recommendations
+                        were returned for this scan.
+                    </p>
+
+                </div>
+
+
+                <div>
+
+                    <span
+                        class="impact-badge green-badge"
+                    >
+                        Eco-friendly
+                    </span>
+
+                </div>
+
+
+                <button
+                    class="fix-btn"
+                    disabled
+                >
+                    Done
+                </button>
+
+            </div>
+
+        `;
+
+        return;
+    }
+
+
+    container.innerHTML =
+        recommendations
+            .map(item => {
+
+                const impact =
+                    String(
+                        item.impact ||
+                        "Low"
+                    ).toLowerCase();
+
+
+                let levelClass =
+                    "low";
+
+                let impactClass =
+                    "impact-low";
+
+                let badgeClass =
+                    "green-badge";
+
+
+                if (impact === "high") {
+
+                    levelClass =
+                        "high";
+
+                    impactClass =
+                        "impact-high";
+
+                    badgeClass =
+                        "red-badge";
+
+                } else if (
+                    impact === "medium"
+                ) {
+
+                    levelClass =
+                        "medium";
+
+                    impactClass =
+                        "impact-medium";
+
+                    badgeClass =
+                        "amber-badge";
+                }
+
+
+                const impactText =
+                    impact.charAt(0)
+                        .toUpperCase() +
+                    impact.slice(1);
+
+
+                return `
+
+                    <div
+                        class="recommendation
+                        ${levelClass}"
+                    >
+
+                        <div
+                            class="${impactClass}"
+                        >
+                            ${impactText}
+                            Impact
+                        </div>
+
+
+                        <div>
+
+                            <strong>
+                                ${escapeHtml(
+                                    item.issue ||
+                                    "Recommendation"
+                                )}
+                            </strong>
+
+
+                            <p>
+                                ${escapeHtml(
+                                    item.reason ||
+                                    item.action ||
+                                    "Consider improving this area."
+                                )}
+                            </p>
+
+                        </div>
+
+
+                        <div>
+
+                            <span
+                                class="impact-badge
+                                ${badgeClass}"
+                            >
+                                ${escapeHtml(
+                                    item.action ||
+                                    "Improve"
+                                )}
+                            </span>
+
+                        </div>
+
+
+                        <button
+                            class="fix-btn"
+                            onclick="fixIssue(this)"
+                        >
+                            Fix Now
+                        </button>
+
+                    </div>
+
+                `;
+            })
+            .join("");
+}
+
+
+/* ================= PAGE WEIGHT BREAKDOWN ================= */
+
+function updateWeightBreakdown(
+    htmlData,
+    pageSizeBytes
+) {
+
+    const images =
+        Number(
+            htmlData.images || 0
+        );
+
+
+    const scripts =
+        Number(
+            htmlData.scripts || 0
+        );
+
+
+    const fonts =
+        Number(
+            htmlData.fonts || 0
+        );
+
+
+    const stylesheets =
+        Number(
+            htmlData.stylesheets || 0
+        );
+
+
+    const total =
+        images +
+        scripts +
+        fonts +
+        stylesheets;
+
+
+    const donut =
+        document.getElementById(
+            "weightDonut"
+        );
+
+
+    const legend =
+        document.getElementById(
+            "weightLegend"
+        );
+
+
+    if (total === 0) {
+
+        donut.style.background =
+            "conic-gradient(#c9ced0 0 100%)";
+
+
+        legend.innerHTML = `
+
+            <div>
+
+                <span class="dot gray"></span>
+
+                <b>
+                    Resources
+                </b>
+
+                <br>
+
+                &nbsp;&nbsp;&nbsp;&nbsp;
+
+                No HTML resources detected
+
+            </div>
+
+        `;
+
+        return;
+    }
+
+
+    const imagePct =
+        images / total * 100;
+
+
+    const scriptPct =
+        scripts / total * 100;
+
+
+    const fontPct =
+        fonts / total * 100;
+
+
+    const stylePct =
+        stylesheets / total * 100;
+
+
+    const p1 =
+        imagePct;
+
+
+    const p2 =
+        p1 + scriptPct;
+
+
+    const p3 =
+        p2 + fontPct;
+
+
+    donut.style.background = `
+
+        conic-gradient(
+
+            #3bad78
+            0 ${p1}%,
+
+            #397fc9
+            ${p1}% ${p2}%,
+
+            #e7ae37
+            ${p2}% ${p3}%,
+
+            #c9ced0
+            ${p3}% 100%
+
+        )
+
+    `;
+
+
+    legend.innerHTML = `
+
+        <div>
+
+            <span class="dot green"></span>
+
+            <b>
+                Images
+            </b>
+
+            <br>
+
+            &nbsp;&nbsp;&nbsp;&nbsp;
+
+            ${images}
+            resource${images === 1 ? "" : "s"}
+
+        </div>
+
+
+        <div>
+
+            <span class="dot blue"></span>
+
+            <b>
+                Scripts
+            </b>
+
+            <br>
+
+            &nbsp;&nbsp;&nbsp;&nbsp;
+
+            ${scripts}
+            resource${scripts === 1 ? "" : "s"}
+
+        </div>
+
+
+        <div>
+
+            <span class="dot yellow"></span>
+
+            <b>
+                Fonts
+            </b>
+
+            <br>
+
+            &nbsp;&nbsp;&nbsp;&nbsp;
+
+            ${fonts}
+            resource${fonts === 1 ? "" : "s"}
+
+        </div>
+
+
+        <div>
+
+            <span class="dot gray"></span>
+
+            <b>
+                Stylesheets
+            </b>
+
+            <br>
+
+            &nbsp;&nbsp;&nbsp;&nbsp;
+
+            ${stylesheets}
+            resource${stylesheets === 1 ? "" : "s"}
+
+        </div>
+
+    `;
+}
+
+
+/* ================= BEFORE / AFTER ================= */
+
+function updateBeforeAfter(
+    pageSizeMB,
+    monthlyCost
+) {
+
+    const current =
+        Number(pageSizeMB) || 0;
+
+
+    /*
+        Projected estimate for UI.
+        The backend currently does not provide
+        an optimized page-size value.
+    */
+
+    const projected =
+        current * 0.5;
+
+
+    const reduction =
+        current > 0
+            ? 50
+            : 0;
+
+
+    const saved =
+        Number(monthlyCost) * 0.5;
+
+
+    document.getElementById(
+        "currentWeightValue"
+    ).textContent =
+        `${formatNumber(
+            current,
+            2
+        )} MB`;
+
+
+    document.getElementById(
+        "projectedWeightValue"
+    ).textContent =
+        `${formatNumber(
+            projected,
+            2
+        )} MB`;
+
+
+    document.getElementById(
+        "reductionValue"
+    ).textContent =
+        `${reduction}%`;
+
+
+    document.getElementById(
+        "moneySavedValue"
+    ).textContent =
+        `₹${formatNumber(
+            saved,
+            2
+        )} / month`;
+
+
+    const currentBar =
+        document.querySelector(
+            ".current"
+        );
+
+
+    const projectedBar =
+        document.querySelector(
+            ".projected"
+        );
+
+
+    currentBar.style.height =
+        current > 0
+            ? "145px"
+            : "10px";
+
+
+    projectedBar.style.height =
+        projected > 0
+            ? "75px"
+            : "10px";
+}
+
+
+/* ================= ANALYZE WEBSITE ================= */
+
+async function rescanWebsite() {
+
+    const input =
+        document.getElementById(
+            "urlInput"
+        );
+
+
+    const url =
+        input.value.trim();
+
+
+    if (url === "") {
+
+        alert(
+            "Please enter a website URL."
+        );
+
+        input.focus();
+
+        return;
+    }
+
+
+    const button =
+        document.querySelector(
+            ".rescan-btn"
+        );
+
+
+    const originalText =
+        button.innerText;
+
+
+    button.innerText =
+        "Analyzing...";
+
+
+    button.disabled =
+        true;
+
+
+    try {
+
+        const response =
+            await fetch(
+                API_URL,
+                {
+                    method: "POST",
+
+                    headers: {
+                        "Content-Type":
+                            "application/json"
+                    },
+
+                    body:
+                        JSON.stringify({
+                            url: url
+                        })
+                }
+            );
+
+
+        const data =
+            await response.json();
+
+
+        if (
+            !response.ok ||
+            !data.success
+        ) {
+
+            throw new Error(
+                data.error ||
+                "Website analysis failed."
+            );
+        }
+
+
+        updateDashboard(
+            data
+        );
+
+
+    } catch (error) {
+
+        console.error(
+            "EcoBuilt API Error:",
+            error
+        );
+
+
+        alert(
+            "Unable to analyze the website.\n\n" +
+            error.message +
+            "\n\n" +
+            "Make sure the Flask backend is running."
+        );
+
+
+    } finally {
+
+        button.innerText =
+            originalText;
+
+        button.disabled =
+            false;
+    }
+}
+
+
+/* ================= HISTORY ================= */
+
+function showHistory() {
+
+    alert(
+        "Scan History\n\n" +
+        "History storage will be connected " +
+        "in the next backend step."
+    );
+}
+
+
+/* ================= FIX ================= */
+
+function fixIssue(button) {
+
+    button.innerText =
+        "Added";
+
+    button.disabled =
+        true;
+
+    button.style.opacity =
+        "0.6";
+}
+
+
+/* ================= EXPORT ================= */
+
+function exportReport() {
+
+    alert(
+        "ESG Report generation will be connected " +
+        "to the Flask report route next."
+    );
+}
+
+
+/* ================= SHARE ================= */
+
+async function shareResults() {
+
+    const score =
+        document.getElementById(
+            "scoreNumber"
+        ).innerText;
+
+
+    const text =
+        `My EcoBuilt website score is ${score}/100.`;
+
+
+    if (navigator.share) {
+
+        try {
+
+            await navigator.share({
+                title:
+                    "EcoBuilt Carbon Report",
+
+                text:
+                    text
+            });
+
+        } catch (error) {
+
+            console.log(
+                "Share cancelled."
+            );
+        }
+
+    } else if (
+        navigator.clipboard
+    ) {
+
+        await navigator.clipboard
+            .writeText(text);
+
+
+        alert(
+            "Result copied to clipboard!"
+        );
+
+    } else {
+
+        alert(text);
+    }
+}
+
+
+/* ================= BOOKMARK ================= */
+
+function bookmarkWebsite() {
+
+    const url =
+        document.getElementById(
+            "urlInput"
+        ).value.trim();
+
+
+    if (!url) {
+
+        alert(
+            "Enter a website URL before bookmarking."
+        );
+
+        return;
+    }
+
+
+    localStorage.setItem(
+        "ecobuilt_bookmark",
+        url
+    );
+
+
+    alert(
+        "Website bookmarked successfully!"
+    );
+}
+
+
+/* ================= ESCAPE HTML ================= */
+
+function escapeHtml(value) {
+
+    return String(value)
+
+        .replace(
+            /&/g,
+            "&amp;"
+        )
+
+        .replace(
+            /</g,
+            "&lt;"
+        )
+
+        .replace(
+            />/g,
+            "&gt;"
+        )
+
+        .replace(
+            /"/g,
+            "&quot;"
+        )
+
+        .replace(
+            /'/g,
+            "&#039;"
+        );
+}
+
+</script>
+
+</body>
+</html>
+```
